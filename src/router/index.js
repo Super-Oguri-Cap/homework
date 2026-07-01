@@ -1,13 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../components/Login.vue';
 import Products from '../components/Products.vue';
+import Checkout from '../components/Checkout.vue';
 
 const routes = [
   { path: '/login', component: Login },
   { 
     path: '/products', 
     component: Products,
-    meta: { requiresAuth: true } // 需要认证
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/checkout', 
+    component: Checkout,
+    meta: { requiresAuth: true }
   },
   { path: '/', redirect: '/login' }
 ];
