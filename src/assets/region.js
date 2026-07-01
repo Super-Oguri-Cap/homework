@@ -92,4 +92,12 @@ export const getDistricts = (province, city) => {
   return regionData[province][city];
 };
 
+export const regions = Object.keys(regionData).map(province => ({
+  name: province,
+  children: Object.keys(regionData[province]).map(city => ({
+    name: city,
+    children: regionData[province][city]
+  }))
+}));
+
 export default regionData;

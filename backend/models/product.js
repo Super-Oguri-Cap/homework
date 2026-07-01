@@ -62,7 +62,7 @@ const productModel = {
     const result = db.prepare(`
       INSERT INTO products (name, price, description, category, image, stock, created_at, updated_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(name, price, description, category, image, stock, now, now);
+    `).run(name, price, description || null, category || null, image || null, stock, now, now);
     return this.findById(result.lastInsertRowid);
   },
 

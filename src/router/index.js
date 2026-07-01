@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../components/Login.vue';
 import Products from '../components/Products.vue';
+import Cart from '../components/Cart.vue';
 import Checkout from '../components/Checkout.vue';
+import OrderList from '../components/OrderList.vue';
 
 const routes = [
   { path: '/login', component: Login },
@@ -11,8 +13,18 @@ const routes = [
     meta: { requiresAuth: true }
   },
   { 
+    path: '/cart', 
+    component: Cart,
+    meta: { requiresAuth: true }
+  },
+  { 
     path: '/checkout', 
     component: Checkout,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/orders', 
+    component: OrderList,
     meta: { requiresAuth: true }
   },
   { path: '/', redirect: '/login' }

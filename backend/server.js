@@ -14,11 +14,27 @@ const addressRoutes = require('./address');
 const app = express();
 const PORT = 3000;
 
-// 初始化数据库
-initDatabase();
+// CORS 配置（加入更多常见开发端口）
+const allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:4173',
+  'http://localhost:4174',
+  'http://172.18.224.23:8080',
+];
 
 app.use(cors({
-  origin: ['http://localhost:8080', 'http://172.18.224.23:8080', 'http://localhost:5173', 'http://localhost:5174'],
+  origin: (origin, callback) => {
+    // 允许无 origin 的请求（如 Postman、curl）
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // 开发阶段放行所有来源
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -67,7 +83,17 @@ app.get('/', (req, res) => {
   });
 });
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`后端服务已启动: http://localhost:${PORT}`);
-});
+// 异步启动：先初始化数据库，再启动服务
+async function start() {
+  try {
+    await initDatabase();
+    app.listen(PORT, () => {
+      console.log(`后端服务已启动: http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error('[启动失败]', err);
+    process.exit(1);
+  }
+}
+
+start();
