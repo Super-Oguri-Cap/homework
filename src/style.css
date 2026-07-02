@@ -1,46 +1,52 @@
-/* ============================================
-   电商应用设计系统
-   ============================================ */
-
 :root {
   --primary: #6366f1;
   --primary-hover: #4f46e5;
   --primary-light: #eef2ff;
   --primary-border: #c7d2fe;
   --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --primary-glow: rgba(99, 102, 241, 0.4);
 
   --success: #10b981;
   --success-light: #ecfdf5;
+  --success-glow: rgba(16, 185, 129, 0.3);
   --warning: #f59e0b;
   --warning-light: #fffbeb;
+  --warning-glow: rgba(245, 158, 11, 0.3);
   --danger: #ef4444;
   --danger-light: #fef2f2;
+  --danger-glow: rgba(239, 68, 68, 0.3);
   --info: #0ea5e9;
   --info-light: #f0f9ff;
+  --info-glow: rgba(14, 165, 233, 0.3);
 
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
   --text-muted: #94a3b8;
   --text-white: #ffffff;
 
-  --bg-page: #f8fafc;
+  --bg-page: #f1f5f9;
   --bg-card: #ffffff;
-  --bg-hover: #f1f5f9;
+  --bg-hover: #f8fafc;
   --bg-active: #e2e8f0;
+  --bg-glass: rgba(255, 255, 255, 0.85);
 
   --border-color: #e2e8f0;
   --border-light: #f1f5f9;
   --border-focus: #a5b4fc;
+  --border-glow: rgba(165, 180, 252, 0.5);
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
 
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-xl: 20px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -52,10 +58,21 @@
   --spacing-lg: 24px;
   --spacing-xl: 32px;
   --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
 
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-size-lg: 15px;
+  --font-size-xl: 16px;
+  --font-size-2xl: 18px;
+  --font-size-3xl: 22px;
+  --font-size-4xl: 28px;
 }
 
 * {
@@ -67,6 +84,8 @@
 html {
   font-size: 14px;
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -74,17 +93,39 @@ body {
   background-color: var(--bg-page);
   color: var(--text-primary);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
   min-height: 100vh;
 }
 
-/* ============================================
-   基础布局
-   ============================================ */
+::selection {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
 
 .container {
   max-width: 1200px;
@@ -96,14 +137,200 @@ body {
   padding: var(--spacing-xl) 0;
 }
 
-/* ============================================
-   导航栏
-   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-slow);
+}
+
+.animate-slide-right {
+  animation: slideInRight var(--transition-normal);
+}
+
+.animate-slide-left {
+  animation: slideInLeft var(--transition-normal);
+}
+
+.animate-bounce-in {
+  animation: bounceIn var(--transition-slow);
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.animate-spin {
+  animation: spin 0.8s linear infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s, opacity 0.6s;
+  pointer-events: none;
+}
+
+.ripple-container:active::after {
+  width: 300%;
+  height: 300%;
+  opacity: 0;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-light) 50%, var(--bg-hover) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
 
 .navbar {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-light);
   position: sticky;
   top: 0;
@@ -130,6 +357,7 @@ body {
   align-items: center;
   gap: var(--spacing-sm);
   letter-spacing: -0.3px;
+  transition: opacity var(--transition-fast);
 }
 
 .navbar-brand:hover {
@@ -161,7 +389,7 @@ body {
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: var(--primary);
+  background: var(--primary-gradient);
   border-radius: 1px;
   transition: width var(--transition-normal);
 }
@@ -190,10 +418,6 @@ body {
   gap: var(--spacing-md);
 }
 
-/* ============================================
-   按钮
-   ============================================ */
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -219,7 +443,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transition: left var(--transition-slow);
 }
 
@@ -230,16 +454,17 @@ body {
 .btn-primary {
   background: var(--primary-gradient);
   color: var(--text-white);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 8px var(--primary-glow);
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 16px var(--primary-glow);
 }
 
 .btn-primary:active:not(:disabled) {
   transform: translateY(0);
+  box-shadow: 0 1px 4px var(--primary-glow);
 }
 
 .btn-secondary {
@@ -269,13 +494,13 @@ body {
 .btn-danger {
   background-color: var(--danger);
   color: var(--text-white);
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+  box-shadow: 0 2px 8px var(--danger-glow);
 }
 
 .btn-danger:hover:not(:disabled) {
   background-color: #dc2626;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+  box-shadow: 0 4px 16px var(--danger-glow);
 }
 
 .btn-sm {
@@ -298,10 +523,6 @@ body {
 .btn-block {
   width: 100%;
 }
-
-/* ============================================
-   卡片
-   ============================================ */
 
 .card {
   background-color: var(--bg-card);
@@ -334,10 +555,6 @@ body {
   border-top: 1px solid var(--border-light);
   background-color: var(--bg-hover);
 }
-
-/* ============================================
-   表单
-   ============================================ */
 
 .form-group {
   margin-bottom: var(--spacing-md);
@@ -394,10 +611,6 @@ body {
   border-color: var(--primary);
 }
 
-/* ============================================
-   表格
-   ============================================ */
-
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -431,10 +644,6 @@ body {
   border-bottom: none;
 }
 
-/* ============================================
-   弹窗
-   ============================================ */
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -447,37 +656,18 @@ body {
   justify-content: center;
   z-index: 1000;
   animation: fadeIn var(--transition-fast);
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
   background-color: var(--bg-card);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
   width: 90%;
   max-width: 500px;
   overflow: hidden;
   animation: slideUp var(--transition-normal);
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ============================================
-   标签
-   ============================================ */
 
 .tag {
   display: inline-flex;
@@ -513,10 +703,6 @@ body {
   color: var(--info);
 }
 
-/* ============================================
-   消息提示
-   ============================================ */
-
 .toast {
   position: fixed;
   top: 20px;
@@ -543,21 +729,6 @@ body {
   color: var(--text-white);
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ============================================
-   空状态
-   ============================================ */
-
 .empty-state {
   text-align: center;
   padding: var(--spacing-2xl);
@@ -567,6 +738,7 @@ body {
 .empty-state-icon {
   font-size: 48px;
   margin-bottom: var(--spacing-md);
+  opacity: 0.6;
 }
 
 .empty-state-title {
@@ -579,10 +751,6 @@ body {
   font-size: 14px;
 }
 
-/* ============================================
-   加载状态
-   ============================================ */
-
 .loading {
   display: inline-block;
   width: 20px;
@@ -593,13 +761,11 @@ body {
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
 }
-
-/* ============================================
-   响应式
-   ============================================ */
 
 @media (max-width: 768px) {
   html {

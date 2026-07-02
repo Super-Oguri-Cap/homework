@@ -220,10 +220,11 @@ onMounted(() => {
 }
 
 .page-header h1 {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 800;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
+  letter-spacing: -0.5px;
 }
 
 .page-desc {
@@ -240,6 +241,7 @@ onMounted(() => {
 
 .cart-content {
   max-width: 900px;
+  margin: 0 auto;
 }
 
 .cart-header {
@@ -269,13 +271,18 @@ onMounted(() => {
   width: 20px;
   height: 20px;
   border: 2px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 6px;
   transition: all var(--transition-fast);
+}
+
+.checkbox-wrapper:hover .check-mark {
+  border-color: var(--primary);
 }
 
 .checkbox-wrapper input:checked + .check-mark {
   background-color: var(--primary);
   border-color: var(--primary);
+  animation: bounceIn var(--transition-fast);
 }
 
 .checkbox-wrapper input:checked + .check-mark::after {
@@ -297,17 +304,30 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: var(--spacing-md);
-  background-color: var(--bg-hover);
-  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  transition: all var(--transition-normal);
+}
+
+.cart-item:hover {
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
 }
 
 .cart-item-image {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-hover);
+  transition: transform var(--transition-fast);
+}
+
+.cart-item:hover .cart-item-image {
+  transform: scale(1.02);
 }
 
 .cart-item-info {
@@ -317,7 +337,7 @@ onMounted(() => {
 
 .cart-item-name {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
   overflow: hidden;
@@ -333,22 +353,22 @@ onMounted(() => {
 .quantity-control {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  background-color: var(--bg-card);
-  border-radius: var(--radius-sm);
-  padding: 2px;
+  gap: 0;
+  background-color: var(--bg-page);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .qty-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border: none;
   background-color: transparent;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
-  border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   display: flex;
   align-items: center;
@@ -356,8 +376,14 @@ onMounted(() => {
 }
 
 .qty-btn:hover:not(:disabled) {
-  background-color: var(--bg-page);
+  background-color: var(--primary-light);
   color: var(--primary);
+}
+
+.qty-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  background-color: var(--primary);
+  color: white;
 }
 
 .qty-btn:disabled {
@@ -366,13 +392,14 @@ onMounted(() => {
 }
 
 .qty-input {
-  width: 48px;
-  height: 32px;
+  width: 56px;
+  height: 36px;
   text-align: center;
   border: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   background-color: transparent;
+  color: var(--text-primary);
 }
 
 .qty-input:focus {
@@ -380,15 +407,24 @@ onMounted(() => {
 }
 
 .cart-item-total {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 800;
   color: var(--primary);
   width: 100px;
   text-align: right;
+  background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .delete-btn {
   flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.delete-btn:hover {
+  transform: scale(1.05);
 }
 
 .cart-summary {
@@ -396,10 +432,13 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-top: var(--spacing-lg);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
   background-color: var(--bg-card);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  position: sticky;
+  bottom: 0;
+  border: 1px solid var(--border-light);
 }
 
 .summary-left {
@@ -410,7 +449,7 @@ onMounted(() => {
 .summary-right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
 }
 
 .summary-label {
@@ -419,18 +458,22 @@ onMounted(() => {
 }
 
 .summary-total {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
   color: var(--primary);
+  background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .cart-badge {
   background-color: var(--primary);
   color: var(--text-white);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 1px 5px;
-  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
   margin-left: 2px;
 }
 
@@ -440,10 +483,34 @@ onMounted(() => {
   margin-right: var(--spacing-md);
 }
 
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .cart-content {
+    max-width: 100%;
+  }
+
+  .cart-summary {
+    max-width: 100%;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+}
+
 @media (max-width: 768px) {
   .cart-item {
     flex-wrap: wrap;
     gap: var(--spacing-sm);
+    padding: var(--spacing-md);
   }
 
   .cart-item-image {
@@ -464,11 +531,16 @@ onMounted(() => {
   .cart-summary {
     flex-direction: column;
     gap: var(--spacing-md);
+    padding: var(--spacing-md);
   }
 
   .summary-right {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .summary-total {
+    font-size: 22px;
   }
 }
 
@@ -488,6 +560,15 @@ onMounted(() => {
 
   .page-header h1 {
     font-size: 22px;
+  }
+
+  .quantity-control {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .qty-input {
+    width: 48px;
   }
 }
 </style>
